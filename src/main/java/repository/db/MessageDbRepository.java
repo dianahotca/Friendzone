@@ -1,19 +1,17 @@
 package repository.db;
+import com.example.socialnetworkguiapplication.FriendRequestModel;
+import com.example.socialnetworkguiapplication.UserModel;
 import domain.*;
-import domain.Friendship;
-import domain.validators.Validator;
 import domain.validators.exceptions.EntityNullException;
-import domain.validators.exceptions.ExistenceException;
-import domain.validators.exceptions.NotExistenceException;
 import repository.Repository;
-import repository.memory.FriendshipMemoryRepository;
+import repository.paging.Page;
+import repository.paging.Pageable;
 import utils.Constants;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.*;
 
-public class MessageDbRepository implements Repository<Long, Message> {
+public class MessageDbRepository implements Repository<Long, Message>{
     private String url;
     private String username;
     private String password;
@@ -167,4 +165,122 @@ public class MessageDbRepository implements Repository<Long, Message> {
     @Override
     public void update(Message entity) {}
 
+
+    @Override
+    public List<Message> getConversation(String email1, String email2) {
+        List<Message> messages =new ArrayList<>();
+
+        String sql = """
+               SELECT * FROM messages
+               WHERE fromtbl = ? AND totbl LIKE ? OR fromtbl = ? AND totbl LIKE ?
+                """;
+
+        try (Connection connection = DriverManager.getConnection(url, username, password);
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, email1);
+            statement.setString(2, "%" + email2 + "%");
+            statement.setString(3, email2);
+            statement.setString(4, "%" + email1 + "%");
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Long id = resultSet.getLong("id");
+                String fromStr = resultSet.getString("fromtbl");
+                String toStr = resultSet.getString("totbl");
+                String messageStr = resultSet.getString("messagetbl");
+                Long replyID = resultSet.getLong("replytbl");
+                String date = resultSet.getString("datetbl");
+
+                User from = this.getUserFromTable(fromStr);
+                if(from != null) {
+
+                    List<String> toSplit = Arrays.asList(toStr.split(" "));
+                    List<User> to = new ArrayList<>();
+                    for (String email : toSplit) {
+                        if(this.getUserFromTable(email) != null)
+                            to.add(this.getUserFromTable(email));
+                    }
+
+                    Message reply = this.findOne(replyID);
+                    Message message = new Message(id, from, to, messageStr, reply, date);
+                    messages.add(message);
+                }
+            }
+            return messages;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return messages;
+    }
+
+    @Override
+    public List<Message> getFriends(String email) {
+        return null;
+    }
+
+    @Override
+    public List<FriendRequestModel> sentFriendships(String email) {
+        return null;
+    }
+
+    @Override
+    public Page<UserModel> getFriends(Pageable<UserModel> pageable, String email) {
+        return null;
+    }
+
+    @Override
+    public Page<Message> getConversation(Pageable<Message> pageable, String email1, String email2) {
+        return null;
+    }
+
+    /*@Override
+    public Page<Message> getConversation(Pageable<Message> pageable, String email1, String email2) {
+        List<Message> messages = new ArrayList<>();
+
+        String sql = """
+                SELECT * FROM messages
+               WHERE ("fromtbl" = (?) AND "totbl" LIKE (?) OR "fromtbl" = (?) AND "totbl" LIKE (?))
+               ORDER BY datetbl
+               LIMIT (?) OFFSET(?)
+                """;
+
+        try (Connection connection = DriverManager.getConnection(url, username, password);
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, email1);
+            statement.setString(2, email2);
+            statement.setString(3, email2);
+            statement.setString(4, email1);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Long id = resultSet.getLong("id");
+                String fromStr = resultSet.getString("fromtbl");
+                String toStr = resultSet.getString("totbl");
+                String messageStr = resultSet.getString("messagetbl");
+                Long replyID = resultSet.getLong("replytbl");
+                String date = resultSet.getString("datetbl");
+
+                User from = this.getUserFromTable(fromStr);
+                if(from != null) {
+
+                    List<String> toSplit = Arrays.asList(toStr.split(";"));
+                    List<User> to = new ArrayList<>();
+                    for (String email : toSplit) {
+                        if(this.getUserFromTable(email) != null)
+                            to.add(this.getUserFromTable(email));
+                    }
+
+                    Message reply = this.findOne(replyID);
+                    Message message = new Message(id, from, to, messageStr, reply, date);
+                    messages.add(message);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return new PageImplementation<>(pageable, messages);
+    }
+*/
 }

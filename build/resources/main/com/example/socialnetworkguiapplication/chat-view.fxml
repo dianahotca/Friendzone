@@ -49,12 +49,12 @@
                         <Font name="Corbel" size="28.0" />
                      </font>
                   </Label>
-                  <Button fx:id="friendRequestsButton" layoutX="62.0" layoutY="313.0" mnemonicParsing="false" onAction="#onFriendRequestsButtonClick" prefHeight="36.0" prefWidth="170.0" text="View friend requests">
+                  <Button fx:id="friendRequestsButton" layoutX="62.0" layoutY="313.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="170.0" text="View friend requests">
                      <font>
                         <Font name="Corbel" size="17.0" />
                      </font>
                   </Button>
-                  <Button fx:id="addFriendsButton" layoutX="62.0" layoutY="242.0" mnemonicParsing="false" onAction="#onAddFriendButtonClicked" prefHeight="36.0" prefWidth="170.0" text="Add friends">
+                  <Button fx:id="addFriendsButton" layoutX="62.0" layoutY="242.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="170.0" text="Add friends">
                      <font>
                         <Font name="Corbel" size="17.0" />
                      </font>
@@ -64,7 +64,7 @@
                         <Font name="Corbel" size="17.0" />
                      </font>
                   </Button>
-                  <Button fx:id="logOutButton" layoutX="62.0" layoutY="454.0" mnemonicParsing="false" onAction="#onlogOutButtonClicked" prefHeight="36.0" prefWidth="170.0" text="Log out">
+                  <Button fx:id="logOutButton" layoutX="62.0" layoutY="454.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="170.0" text="Log out">
                      <font>
                         <Font name="Corbel" size="17.0" />
                      </font>
@@ -142,7 +142,7 @@
                                     <Insets left="20.0" top="20.0" />
                                  </HBox.margin>
                               </TextField>
-                              <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#sendMessage" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                  <HBox.margin>
                                     <Insets left="10.0" right="10.0" top="20.0" />
                                  </HBox.margin>

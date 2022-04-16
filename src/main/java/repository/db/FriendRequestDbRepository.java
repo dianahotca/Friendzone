@@ -1,11 +1,15 @@
 package repository.db;
 
-import domain.FriendRequest;
-import domain.Tuple;
+import com.example.socialnetworkguiapplication.FriendRequestModel;
+import com.example.socialnetworkguiapplication.FriendRequestSentModel;
+import com.example.socialnetworkguiapplication.UserModel;
+import domain.*;
 import domain.validators.exceptions.EntityNullException;
 import domain.validators.exceptions.ExistenceException;
 import domain.validators.exceptions.NotExistenceException;
 import repository.Repository;
+import repository.paging.Page;
+import repository.paging.Pageable;
 
 import java.sql.*;
 import java.util.*;
@@ -124,5 +128,50 @@ public class FriendRequestDbRepository implements Repository<Tuple<String,String
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<FriendRequest> getConversation(String email1, String email2) {
+        return null;
+    }
+
+    @Override
+    public List<FriendRequest> getFriends(String email) {
+        return null;
+    }
+
+    @Override
+    public List<FriendRequestModel> sentFriendships(String email) {
+        List<FriendRequestModel> friendRequestSent = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(url, username, password);
+             PreparedStatement statement = connection.prepareStatement(
+                     "SELECT * FROM friend_requests WHERE from_user = ?");){
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String to = resultSet.getString("to_user");
+                String date = resultSet.getString("sent_on");
+                String status = resultSet.getString("status");
+
+                FriendRequestModel c = new FriendRequestModel(to,status,date);
+                friendRequestSent.add(c);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return friendRequestSent;
+    }
+
+
+    @Override
+    public Page<UserModel> getFriends(Pageable<UserModel> pageable, String email) {
+        return null;
+    }
+
+    @Override
+    public Page<Message> getConversation(Pageable<Message> pageable, String email1, String email2) {
+        return null;
     }
 }

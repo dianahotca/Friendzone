@@ -1,6 +1,7 @@
 package service;
 
 import com.example.socialnetworkguiapplication.FriendRequestListener;
+import com.example.socialnetworkguiapplication.UserModel;
 import domain.*;
 import domain.validators.ValidationException;
 import domain.validators.exceptions.EntityNullException;
@@ -8,12 +9,14 @@ import domain.validators.exceptions.ExistenceException;
 import domain.validators.exceptions.NotExistenceException;
 import graphNetwork.FriendshipNetwork;
 import repository.Repository;
+import repository.paging.Page;
+import repository.paging.Pageable;
 import utils.Constants;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class FriendshipService implements Service<Tuple<String,String>, Friendship>, FriendRequestListener {
+public class FriendshipService extends Observable implements Service<Tuple<String,String>, Friendship>, FriendRequestListener {
     private Repository<Tuple<String,String>, Friendship> friendshipRepository;
 
     public FriendshipService(Repository<Tuple<String,String>, Friendship> friendshipRepository) {
@@ -28,12 +31,16 @@ public class FriendshipService implements Service<Tuple<String,String>, Friendsh
     @Override
     public void add(Friendship friendship) throws EntityNullException, ValidationException, ExistenceException {
         this.friendshipRepository.save(friendship);
+        setChanged();
+        notifyObservers();
     }
 
     @Override
     public void remove(Friendship e) throws EntityNullException,NotExistenceException{
         friendshipRepository.findOne(e.getId());
         friendshipRepository.delete(e.getId());
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -77,6 +84,8 @@ public class FriendshipService implements Service<Tuple<String,String>, Friendsh
         }
         if(!ok)
             throw new NotExistenceException();
+        setChanged();
+        notifyObservers();
     }
 
     @Override
@@ -87,5 +96,13 @@ public class FriendshipService implements Service<Tuple<String,String>, Friendsh
     @Override
     public void onFriendRequestAccepted(Friendship friendship) {
         add(friendship);
+    }
+
+    public List<Friendship> getFriends(String email){
+        return  friendshipRepository.getFriends(email);
+    }
+
+    public Page<UserModel> getFriends(Pageable<UserModel> pageable, String email){
+        return  friendshipRepository.getFriends(pageable, email);
     }
 }

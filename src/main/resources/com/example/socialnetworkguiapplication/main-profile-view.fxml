@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,131 +15,184 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane fx:id="profileBorderPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.socialnetworkguiapplication.ProfileController">
-   <center>
-      <AnchorPane fx:id="friendsAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="519.0" prefWidth="639.0">
-         <children>
-            <HBox prefHeight="78.0" prefWidth="648.0">
+<HBox prefHeight="522.0" prefWidth="798.0" style="-fx-background-radius: 40px;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.socialnetworkguiapplication.ProfileController">
+   <children>
+      <BorderPane fx:id="profileBorderPane" prefHeight="522.0" prefWidth="798.0" style="-fx-background-radius: 40px; -fx-background-color: linear-gradient(to bottom  , #cc95c0, #dbd4b4, #7aa1d2);">
+         <center>
+            <AnchorPane fx:id="friendsAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="519.0" prefWidth="551.0">
                <children>
-                  <ImageView fitHeight="42.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../icons/find_user_male_100px.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets left="150.0" top="20.0" />
-                     </HBox.margin>
-                  </ImageView>
-                  <TextField fx:id="searchBar" prefHeight="38.0" prefWidth="276.0" promptText="Search for a friend">
+                  <HBox prefHeight="78.0" prefWidth="648.0">
+                     <children>
+                        <ImageView fitHeight="42.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../icons/find_user_male_100px.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="150.0" top="20.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <TextField fx:id="searchBar" prefHeight="38.0" prefWidth="276.0" promptText="Search for a friend">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" top="20.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <TableView fx:id="friendsTable" layoutX="21.0" layoutY="183.0" prefHeight="138.0" prefWidth="506.0" style="-fx-background-color: grey; -fx-background-radius: 18 18 18 18; -fx-border-radius: 18 18 18 18;" stylesheets="@../../../css/table.css">
+                     <columns>
+                        <TableColumn fx:id="friendEmailColumn" minWidth="20.0" prefWidth="130.39996337890625" text="Email" />
+                        <TableColumn fx:id="friendFirstNameColumn" prefWidth="114.39994812011719" text="Firstname" />
+                        <TableColumn fx:id="friendLastNameColumn" prefWidth="124.79998779296875" text="Lastname" />
+                        <TableColumn fx:id="friendshipDateColumn" prefWidth="159.99993896484375" text="Friends since" />
+                     </columns>
+                     <styleClass>
+                        <String fx:value="column-header" />
+                        <String fx:value="column-header-background" />
+                        <String fx:value="corner" />
+                        <String fx:value="decrement-button" />
+                        <String fx:value="filler" />
+                        <String fx:value="highlighted" />
+                        <String fx:value="increment-button" />
+                        <String fx:value="scroll-bar" />
+                        <String fx:value="table-cell" />
+                        <String fx:value="table-row-cell" />
+                        <String fx:value="thumb" />
+                        <String fx:value="track" />
+                        <String fx:value="track-background" />
+                        <String fx:value="virtual-flow" />
+                     </styleClass>
+                  </TableView>
+                  <Label layoutX="101.0" layoutY="401.0" prefHeight="34.0" prefWidth="238.0" text="Are you angry at your friend? ">
                      <font>
-                        <Font size="16.0" />
+                        <Font name="Corbel Light" size="20.0" />
                      </font>
-                     <HBox.margin>
-                        <Insets left="10.0" top="20.0" />
-                     </HBox.margin>
-                  </TextField>
+                  </Label>
+                  <Button fx:id="removeFriendButton" layoutX="355.0" layoutY="400.0" mnemonicParsing="false" onAction="#onRemoveFriendButtonClicked" prefHeight="34.0" prefWidth="150.0" text="Remove Friend">
+                     <font>
+                        <Font name="Corbel" size="18.0" />
+                     </font>
+                  </Button>
                </children>
-            </HBox>
-            <TableView fx:id="friendsTable" layoutX="22.0" layoutY="78.0" prefHeight="354.0" prefWidth="579.0" style="-fx-background-color: #A2C8A2; -fx-background-radius: 18 18 18 18; -fx-border-radius: 18 18 18 18;">
-               <columns>
-                  <TableColumn fx:id="friendEmailColumn" minWidth="20.0" prefWidth="156.00002479553223" text="Email" />
-                  <TableColumn fx:id="friendFirstNameColumn" prefWidth="144.7999267578125" text="Firstname" />
-                  <TableColumn fx:id="friendLastNameColumn" prefWidth="144.0" text="Lastname" />
-                  <TableColumn fx:id="friendshipDateColumn" prefWidth="132.80007934570312" text="Friends since" />
-               </columns>
-            </TableView>
-            <Label layoutX="96.0" layoutY="454.0" prefHeight="34.0" prefWidth="238.0" text="Are you angry at your friend? ">
-               <font>
-                  <Font name="Corbel Light" size="20.0" />
-               </font>
-            </Label>
-            <Button fx:id="removeFriendButton" layoutX="416.0" layoutY="453.0" mnemonicParsing="false" onAction="#onRemoveFriendButtonClicked" prefHeight="34.0" prefWidth="150.0" text="Remove Friend">
-               <font>
-                  <Font name="Corbel" size="18.0" />
-               </font>
-            </Button>
-         </children>
-      </AnchorPane>
-   </center>
-   <left>
-      <AnchorPane prefHeight="519.0" prefWidth="270.0" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fitHeight="157.0" fitWidth="144.0" layoutX="54.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../icons/defaultProfilePhoto.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="46.0" fitWidth="43.0" layoutX="14.0" layoutY="380.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../icons/chatIcon.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="46.0" fitWidth="43.0" layoutX="14.0" layoutY="238.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../icons/add-friend-3925942-3261709.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="46.0" fitWidth="43.0" layoutX="14.0" layoutY="309.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../icons/friend-request-2832424-2351935.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="53.0" fitWidth="53.0" layoutX="9.0" layoutY="446.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../icons/icons8_Logout_100px.png" />
-               </image>
-            </ImageView>
-            <Label fx:id="loggedEmail" layoutX="47.0" layoutY="156.0" prefHeight="26.0" prefWidth="157.0" text="Logged email">
-               <font>
-                  <Font name="Corbel" size="28.0" />
-               </font>
-            </Label>
-            <Button fx:id="friendRequestsButton" layoutX="62.0" layoutY="313.0" mnemonicParsing="false" onAction="#onFriendRequestsButtonClick" prefHeight="36.0" prefWidth="170.0" text="View friend requests">
-               <font>
-                  <Font name="Corbel" size="17.0" />
-               </font>
-            </Button>
-            <Button fx:id="addFriendsButton" layoutX="62.0" layoutY="242.0" mnemonicParsing="false" onAction="#onAddFriendButtonClicked" prefHeight="36.0" prefWidth="170.0" text="Add friends">
-               <font>
-                  <Font name="Corbel" size="17.0" />
-               </font>
-            </Button>
-            <Button fx:id="chatButton" layoutX="62.0" layoutY="384.0" mnemonicParsing="false" onAction="#onChatButtonClicked" prefHeight="36.0" prefWidth="170.0" text="Chat">
-               <font>
-                  <Font name="Corbel" size="17.0" />
-               </font>
-            </Button>
-            <Button fx:id="logOutButton" layoutX="62.0" layoutY="454.0" mnemonicParsing="false" onAction="#onlogOutButtonClicked" prefHeight="36.0" prefWidth="170.0" text="Log out">
-               <font>
-                  <Font name="Corbel" size="17.0" />
-               </font>
-            </Button>
-            <Label layoutX="14.0" layoutY="209.0" prefHeight="26.0" prefWidth="250.0" text="Want more people in your Friendzone? ">
-               <font>
-                  <Font name="Corbel Light" size="16.0" />
-               </font>
-            </Label>
-            <Label layoutX="8.0" layoutY="289.0" text="Curious who wants to join your Friendzone? ">
-               <font>
-                  <Font name="Corbel Light" size="16.0" />
-               </font>
-            </Label>
-            <Label layoutX="13.0" layoutY="360.0" text="Wondering what your Friendzone is up to?">
-               <font>
-                  <Font name="Corbel Light" size="16.0" />
-               </font>
-            </Label>
-            <Label layoutX="11.0" layoutY="426.0">
-               <font>
-                  <Font name="Corbel Light" size="16.0" />
-               </font>
-            </Label>
-            <Label layoutX="13.0" layoutY="426.0" text="Do you have another Friendzone account?">
-               <font>
-                  <Font name="Corbel Light" size="16.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-   </left>
-</BorderPane>
+            </AnchorPane>
+         </center>
+         <left>
+            <AnchorPane prefHeight="519.0" prefWidth="255.0" style="-fx-background-color: transparent; -fx-background-radius: 35px; -fx-border-radius: 35px;" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="105.0" fitWidth="112.0" layoutX="82.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/user_644px.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="41.0" fitWidth="34.0" layoutX="14.0" layoutY="174.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/add-friend-3925942-3261709.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="37.0" fitWidth="34.0" layoutX="14.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/friend-request-2832424-2351935.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="37.0" fitWidth="34.0" layoutX="17.0" layoutY="452.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/Logout_64px.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="loggedEmail" layoutX="43.0" layoutY="132.0" prefHeight="34.0" prefWidth="206.0">
+                     <font>
+                        <Font name="Corbel" size="28.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="friendRequestsButton" layoutX="73.0" layoutY="232.0" mnemonicParsing="false" onAction="#onFriendRequestsButtonClick" prefHeight="36.0" prefWidth="170.0" style="-fx-background-color: linear-gradient(to right, #8e9eab, #eef2f3) linear-gradient(to right, #8e9eab, #eef2f3);" text="View friend requests">
+                     <font>
+                        <Font name="Corbel" size="17.0" />
+                     </font>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </Button>
+                  <Button fx:id="addFriendsButton" layoutX="73.0" layoutY="177.0" mnemonicParsing="false" onAction="#onAddFriendButtonClicked" prefHeight="36.0" prefWidth="170.0" style="-fx-background-color: linear-gradient(to right, #8e9eab, #eef2f3) linear-gradient(to right, #8e9eab, #eef2f3);" text="Add friends">
+                     <font>
+                        <Font name="Corbel" size="17.0" />
+                     </font>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </Button>
+                  <Button fx:id="chatButton" layoutX="73.0" layoutY="284.0" mnemonicParsing="false" onAction="#onChatButtonClicked" prefHeight="36.0" prefWidth="170.0" style="-fx-background-color: linear-gradient(to right, #8e9eab, #eef2f3) linear-gradient(to right, #8e9eab, #eef2f3);" text="Chat">
+                     <font>
+                        <Font name="Corbel" size="17.0" />
+                     </font>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </Button>
+                  <Button fx:id="logOutButton" layoutX="73.0" layoutY="455.0" mnemonicParsing="false" onAction="#onlogOutButtonClicked" prefHeight="36.0" prefWidth="170.0" style="-fx-background-color: linear-gradient(to right, #8e9eab, #eef2f3) linear-gradient(to right, #8e9eab, #eef2f3);" text="Log out">
+                     <font>
+                        <Font name="Corbel" size="17.0" />
+                     </font>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </Button>
+                  <Label layoutX="11.0" layoutY="426.0">
+                     <font>
+                        <Font name="Corbel Light" size="16.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="40.0" fitWidth="36.0" layoutX="14.0" layoutY="284.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/chat_48px.png" />
+                     </image>
+                  </ImageView>
+                  <Button layoutX="74.0" layoutY="346.0" mnemonicParsing="false" onAction="#onEventsButtonClicked" prefHeight="36.0" prefWidth="171.0" style="-fx-background-color: linear-gradient(to right, #8e9eab, #eef2f3) linear-gradient(to right, #8e9eab, #eef2f3);" text="Events">
+                     <font>
+                        <Font name="Corbel" size="17.0" />
+                     </font>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </Button>
+                  <Button layoutX="74.0" layoutY="401.0" mnemonicParsing="false" onAction="#onStatisticsButtonCliked" prefHeight="36.0" prefWidth="170.0" style="-fx-background-color: linear-gradient(to right, #8e9eab, #eef2f3) linear-gradient(to right, #8e9eab, #eef2f3);" text="Statistics">
+                     <font>
+                        <Font name="Corbel" size="17.0" />
+                     </font>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </Button>
+                  <ImageView fitHeight="37.0" fitWidth="36.0" layoutX="17.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/event_accepted_tentatively_96px.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="37.0" fitWidth="34.0" layoutX="17.0" layoutY="401.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/statistics_96px.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="eventNotificationIcon" fitHeight="28.0" fitWidth="28.0" layoutX="187.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/megaphone_80px.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="eventNotificationNumberLabel" alignment="CENTER" layoutX="215.0" layoutY="352.0" prefHeight="18.0" prefWidth="23.0" textAlignment="CENTER">
+                     <font>
+                        <Font name="Corbel Bold" size="19.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </left>
+      </BorderPane>
+   </children>
+   <effect>
+      <DropShadow radius="30.47" width="102.88" />
+   </effect>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</HBox>

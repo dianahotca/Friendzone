@@ -1,17 +1,25 @@
 package repository;
 
+import com.example.socialnetworkguiapplication.FriendRequestModel;
+import com.example.socialnetworkguiapplication.FriendRequestSentModel;
 import domain.Entity;
+import com.example.socialnetworkguiapplication.FriendRequestSentModel;
 import domain.validators.ValidationException;
 import domain.validators.exceptions.NotExistenceException;
 import domain.validators.exceptions.ExistenceException;
 import domain.validators.exceptions.EntityNullException;
+import repository.db.FriendRequestPagingRepository;
+import repository.db.FriendshipPagingRepository;
+import repository.db.MessagePagingRepository;
+
+import java.util.List;
 
 /**
  * CRUD operations repository interface
  * @param <ID> - type E must have an attribute of type ID
  * @param <E> -  type of entities saved in repository
  */
-public interface Repository<ID, E extends Entity<ID>> {
+public interface Repository<ID, E extends Entity<ID>> extends FriendshipPagingRepository, FriendRequestPagingRepository, MessagePagingRepository {
 
     /**
      * @return the number of entities
@@ -67,5 +75,8 @@ public interface Repository<ID, E extends Entity<ID>> {
      * @throws NotExistenceException if the id doesn't exist
      */
     void update(E entity) throws EntityNullException,ValidationException,NotExistenceException;
+    List<E> getConversation(String email1,String email2);
+    List<E> getFriends(String email);
+    List<FriendRequestModel> sentFriendships(String email);
 }
 

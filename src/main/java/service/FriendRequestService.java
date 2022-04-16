@@ -1,6 +1,8 @@
 package service;
 
+import com.example.socialnetworkguiapplication.FriendRequestModel;
 import domain.FriendRequest;
+import com.example.socialnetworkguiapplication.FriendRequestSentModel;
 import domain.Tuple;
 import domain.validators.ValidationException;
 import domain.validators.exceptions.EntityNullException;
@@ -10,8 +12,10 @@ import repository.Repository;
 import utils.Constants;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Observable;
 
-public class FriendRequestService implements Service<Tuple<String,String>, FriendRequest> {
+public class FriendRequestService extends Observable implements Service<Tuple<String,String>, FriendRequest> {
     Repository<Tuple<String,String>,FriendRequest> friendRequestRepository;
 
     public FriendRequestService(Repository<Tuple<String,String>, FriendRequest> friendRequestRepository) {
@@ -38,16 +42,22 @@ public class FriendRequestService implements Service<Tuple<String,String>, Frien
         }catch (NotExistenceException exc) {
             friendRequestRepository.save(friendRequest);
         }
+        setChanged();
+        notifyObservers();
     }
 
     @Override
     public void remove(FriendRequest friendRequest) throws EntityNullException,NotExistenceException{
         friendRequestRepository.delete(friendRequest.getId());
+        setChanged();
+        notifyObservers();
     }
 
     @Override
     public void update(FriendRequest friendRequest) throws EntityNullException, ValidationException,NotExistenceException {
         friendRequestRepository.update(friendRequest);
+        setChanged();
+        notifyObservers();
     }
 
     @Override
@@ -55,4 +65,7 @@ public class FriendRequestService implements Service<Tuple<String,String>, Frien
         return friendRequestRepository.findOne(stringStringTuple);
     }
 
+    public List<FriendRequestModel> sentFriendRequest(String email){
+        return friendRequestRepository.sentFriendships(email);
+    }
 }

@@ -1,14 +1,18 @@
 package com.example.socialnetworkguiapplication;
 
-import com.example.socialnetworkguiapplication.FriendRequestModel;
 import domain.*;
 import domain.validators.ValidationException;
 import domain.validators.exceptions.*;
-import service.FriendRequestService;
-import service.FriendshipService;
-import service.MessageService;
-import service.UserService;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import repository.paging.Page;
+import repository.paging.Pageable;
+import service.*;
 
+import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,14 +25,16 @@ public class Controller {
     private FriendshipService friendshipService;
     private MessageService messageService;
     private FriendRequestService friendRequestService;
+    private EventService eventService;
     private String loggedId;
     private String loggedPassword;
 
-    public Controller(UserService userService, FriendshipService friendshipService, MessageService messageService, FriendRequestService friendRequestService) {
+    public Controller(UserService userService, FriendshipService friendshipService, MessageService messageService, FriendRequestService friendRequestService,EventService eventService) {
         this.userService = userService;
         this.friendshipService = friendshipService;
         this.messageService = messageService;
         this.friendRequestService=friendRequestService;
+        this.eventService=eventService;
         passwordValidator=new PasswordValidator();
         loggedId="";
         loggedPassword="";
@@ -120,23 +126,31 @@ public class Controller {
         Tuple<String,String> idToDelete = new Tuple<>(getLoggedEmail(),email);
         Friendship friendshipToDelete= friendshipService.findOne(idToDelete);
         friendshipService.remove(friendshipToDelete);
+        Iterable<FriendRequest> friendRequests = friendRequestService.getAll();
+        for(FriendRequest friendRequest :friendRequests){
+            if(friendRequest.getId().getLeft().equals(getLoggedEmail()) && friendRequest.getId().getRight().equals(email) || friendRequest.getId().getRight().equals(getLoggedEmail()) && friendRequest.getId().getLeft().equals(email)){
+                friendRequestService.remove(friendRequest);
+                break;
+            }
+        }
     }
 
-    public List<UserDto> getFriends(User user){
+    public List<UserDto> getFriends(String email){
         List<UserDto> friends = new ArrayList<>();
-        Set<Friendship> friendships = (Set<Friendship>)friendshipService.getAll();
-        friendships.stream()
-                .filter(x->x.getUserEmails().getLeft().equals(user.getId()))
-                .forEach(x->{
-                    User friend=userService.findOne(x.getUserEmails().getRight());
-                    friends.add(new UserDto(friend.getFirstName(),friend.getLastName(),x.getDate()));
-                });
-        friendships.stream()
-                .filter(x->x.getUserEmails().getRight().equals(user.getId()))
-                .forEach(x->{
-                    User friend=userService.findOne(x.getUserEmails().getLeft());
-                    friends.add(new UserDto(friend.getFirstName(),friend.getLastName(),x.getDate()));
-                });
+        List<Friendship> friendships = friendshipService.getFriends(email);
+        for(Friendship friendship : friendships){
+            if(friendship.getUserEmails().getRight().equals(email)){
+                User user = getUser(friendship.getUserEmails().getLeft());
+                UserDto userDto = new UserDto(user.getFirstName(),user.getLastName(),friendship.getDate());
+                friends.add(userDto);
+            }
+            else{
+                User user = getUser(friendship.getUserEmails().getRight());
+                UserDto userDto = new UserDto(user.getFirstName(),user.getLastName(),friendship.getDate());
+                friends.add(userDto);
+            }
+
+        }
         return friends;
     }
 
@@ -156,6 +170,10 @@ public class Controller {
                     friends.add(friend);
                 });
         return friends;
+    }
+
+    public Page<UserModel> getFriends(Pageable<UserModel> pageable, String email){
+        return friendshipService.getFriends(pageable,email);
     }
 
     public void updateUser(String email, String newF, String newL) throws EntityNullException,ValidationException,NotExistenceException{
@@ -216,21 +234,8 @@ public class Controller {
     public void sendMessage(List<User> usersList, String message) throws LogInException{
         String email = this.getLoggedEmail();
         User loggedUser = userService.findOne(email);
-        Iterable<Friendship> friendships = friendshipService.getAll();
         Message newMessage = new Message( this.messageService.size()+1,loggedUser,usersList,message,null,LocalDateTime.now().format(DATE_TIME_FORMATTER));
         messageService.add(newMessage);
-
-        boolean ok = true;
-        for(User user : usersList){
-            for(Friendship friendship: friendships){
-                if((friendship.getUserEmails().getRight().equals(user.getEmail()) && friendship.getUserEmails().getLeft().equals(loggedUser.getEmail())) || friendship.getUserEmails().getRight().equals(loggedUser.getEmail()) && friendship.getUserEmails().getLeft().equals(user.getEmail())) {
-                    ok = false;
-                    break;
-                }
-            }
-        }
-        if(ok == true)
-            throw new ValidationException("User is not in friend's list!");
     }
 
     public List<Message> allMessages(){
@@ -247,56 +252,24 @@ public class Controller {
     }
 
     public void replyMessage(Long id, String messageReply){
-
         Message reply = null;
-        if(id > messageService.size()+1){
-            throw new ValidationException("This message doesn't exist!");
-        }
-
-        Iterable<Message> messageList = (Iterable<Message>) messageService.getAll();
-        for(Message message1 : messageList){
-            if(message1.getId().equals(id)){
-                reply = new Message(messageService.size()+1,userService.findOne(getLoggedEmail()), Arrays.asList(message1.getFrom()),messageReply,message1, LocalDateTime.now().format(DATE_TIME_FORMATTER));
-                break;
-            }
-        }
+        Message messageToReply = (Message) messageService.findOne(id);
+        reply = new Message(messageService.size()+1,userService.findOne(getLoggedEmail()), Arrays.asList(messageToReply.getFrom()),messageReply,messageToReply, LocalDateTime.now().format(DATE_TIME_FORMATTER));
         this.messageService.add(reply);
     }
 
     public void replyAll(Long id, String messageReply){
-
-        Message reply = null;
-        if(id > messageService.size()+1){
-            throw new ValidationException("This message doesn't exist!");
-        }
-
         List<User> usersToReply = new ArrayList<>();
-
-        Iterable<Message> messageList = (Iterable<Message>) messageService.getAll();
-        for(Message message1 : messageList){
-            if(message1.getId().equals(id)){
-                for(User user : message1.getTo())
-                    if(!getLoggedEmail().equals(user.getEmail()))
-                        usersToReply.add(user);
-                usersToReply.add(message1.getFrom());
-                reply = new Message(messageService.size()+1,userService.findOne(getLoggedEmail()), usersToReply,messageReply,message1, LocalDateTime.now().format(DATE_TIME_FORMATTER));
-                break;
-            }
-        }
+        Message messageToReply = (Message) messageService.findOne(id);
+        usersToReply.addAll(messageToReply.getTo());
+        usersToReply.remove(getUser(getLoggedEmail()));
+        usersToReply.add(messageToReply.getFrom());
+        Message reply = new Message(messageService.size()+1,userService.findOne(getLoggedEmail()), usersToReply,messageReply,messageToReply, LocalDateTime.now().format(DATE_TIME_FORMATTER));
         this.messageService.add(reply);
     }
 
     public List<Message> viewConversation(String email1, String email2){
-        User user1 = userService.findOne(email1);
-        User user2 = userService.findOne(email2);
-
-        Iterable<Message> messageList = (Iterable<Message>) messageService.getAll();
-        List<Message> conversation = new ArrayList<>();
-        for(Message message : messageList){
-            if((message.getFrom().equals(user2) && message.getTo().contains(user1)) || (message.getFrom().equals(user1) && message.getTo().contains(user2)) ){
-                conversation.add(message);
-            }
-        }
+       List<Message> conversation = messageService.conversation(email1,email2);
         return conversation.stream()
                 .sorted(Comparator.comparing(Message::getDate))
                 .collect(Collectors.toList());
@@ -352,14 +325,11 @@ public class Controller {
         friendRequestService.update(friendRequest);
     }
 
-    /**
-     *
-     * @param firstName - the user's firstname
-     * @param lastName - the user's firstname
-     * @return the email of the user with the specified firstname and lastname
-     * @throws NotExistenceException if there is no user with the specified firstname and lastname
-     * @throws EntityNullException if the firstname or lastname is null
-     */
+    public List<FriendRequestModel> sentRequests(String email){
+        return friendRequestService.sentFriendRequest(email);
+    }
+
+
     public String getUserEmail(String firstName,String lastName) throws NotExistenceException,EntityNullException{
         if(firstName == null || lastName==null)
             throw new EntityNullException();
@@ -369,5 +339,189 @@ public class Controller {
                 return user.getEmail();
         }
         throw new NotExistenceException();
+    }
+
+    public void addObserver(Observer obj){
+        userService.addObserver(obj);
+        friendshipService.addObserver(obj);
+        messageService.addObserver(obj);
+        friendRequestService.addObserver(obj);
+        eventService.addObserver(obj);
+    }
+
+    public void saveConversation(String email1,String email2, Timestamp start, Timestamp end) throws IOException {
+        List<Message> conversationAux = viewConversation(email1,email2);
+        StringBuilder body = new StringBuilder();
+
+        List<Message> conversation = new ArrayList<>();
+        int m = 0;
+        for(Message message:conversationAux) {
+            if (message.getTo().contains(getUser(getLoggedEmail())) && message.getDate().isAfter(start.toLocalDateTime()) && message.getDate().isBefore(end.toLocalDateTime())) {
+                m++;
+                conversation.add(message);
+            }
+        }
+
+        if(m == 0)
+            body.append("You have no messages!").append("\n");
+        else {
+            body.append("You have: ").append(m).append(" messages").append("\n");
+            User friend = getUser(email2);
+            for (Message message : conversation) {
+                body.append("New message from: ").append(friend.getFirstName()).append(" ").append(friend.getLastName()).append("\nContent: \n\"").append(message.getMessage())
+                        .append("\"\n").append("Time: ").append(message.getDate().format(DATE_TIME_FORMATTER)).append("\n\n");
+            }
+        }
+
+        saveTextToPdf(body.toString());
+
+    }
+
+    public void saveActivity(User user, Timestamp start, Timestamp end) throws IOException {
+        List<Message> activityMessages = new ArrayList<>();
+        Iterable<Message> messages = messageService.getAll();
+        for(Message message : messages){
+            if(message.getTo().contains(user) && message.getDate().isBefore(end.toLocalDateTime()) && message.getDate().isAfter(start.toLocalDateTime()) )
+                activityMessages.add(message);
+        }
+        int m = 0;
+        List<Friendship> activityFriendships = new ArrayList<>();
+        Iterable<Friendship> friendships = friendshipService.getAll();
+        for(Friendship friendship : friendships){
+            if((friendship.getUserEmails().getRight().equals(getLoggedEmail()) || friendship.getUserEmails().getLeft().equals(getLoggedEmail())) && LocalDateTime.parse(friendship.getDate(), DATE_TIME_FORMATTER).isAfter(start.toLocalDateTime()) && LocalDateTime.parse(friendship.getDate(), DATE_TIME_FORMATTER).isBefore(end.toLocalDateTime())) {
+                m++;
+                activityFriendships.add(friendship);
+            }
+        }
+
+        StringBuilder body = new StringBuilder();
+        for (Message message : activityMessages) {
+            body.append("New message from: ").append(message.getFrom().getFirstName()).append(" ").append(message.getFrom().getLastName()).append("\nContent: \n\"")
+                    .append(message.getMessage()).append("\"\n").append("Time: ").append(message.getDate()).append("\n\n");
+        }
+
+        List<Friendship> newFrienships = new ArrayList<>();
+        User friend = null;
+        int f = 0;
+        for (Friendship friendship : friendships) {
+            if (friendship.getUserEmails().getRight().equals(getLoggedEmail()) || friendship.getUserEmails().getLeft().equals(getLoggedEmail())) {
+                newFrienships.add(friendship);
+                f++;
+            }
+        }
+
+        for(Friendship friendship : newFrienships){
+            if(friendship.getUserEmails().getRight().equals(getLoggedEmail()))
+                 friend = getUser(friendship.getUserEmails().getLeft());
+            else friend = getUser(friendship.getUserEmails().getRight());
+            body.append("You became friend with ").append(friend.getFirstName()).append(" ").append(friend.getLastName()).append(" on ")
+                    .append(friendship.getDate()).append("\n");
+        }
+
+        saveTextToPdf(body.toString());
+    }
+
+    private void saveTextToPdf(String text) throws IOException {
+        PDDocument document = new PDDocument();
+        PDPage page = new PDPage();
+        document.addPage(page);
+
+        PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+        contentStream.setFont(PDType1Font.TIMES_BOLD, 20);
+        contentStream.beginText();
+        contentStream.newLineAtOffset(25, 700);
+        contentStream.setLeading(14.5f);
+        List<String> chunks = List.of(text.split("\n"));
+
+        for (int index = 0, availableRows = 25; index < chunks.size(); ++index, --availableRows) {
+            if (availableRows == 0) {
+                availableRows = 25;
+                contentStream.endText();
+                contentStream.close();
+                page = new PDPage();
+                document.addPage(page);
+                contentStream = new PDPageContentStream(document, page);
+                contentStream.setFont(PDType1Font.TIMES_BOLD, 20);
+                contentStream.beginText();
+                contentStream.newLineAtOffset(25, 700);
+                contentStream.setLeading(14.5f);
+            }
+
+            contentStream.showText(chunks.get(index));
+            contentStream.newLine();
+            contentStream.newLine();
+        }
+
+        contentStream.endText();
+        contentStream.close();
+
+        document.save("D:/ProiectExtins/report.pdf");
+        document.close();
+    }
+
+
+    public void addEvent(Integer id,String description,String date) throws ValidationException, EntityNullException, ExistenceException
+    {
+        Event event=new Event(id,description,date);
+        eventService.add(event);
+    }
+
+    public void deleteEvent(Integer id,String description,String date) throws ValidationException, EntityNullException, ExistenceException
+    {
+        Event event=new Event(id,description,date);
+        eventService.remove(event);
+    }
+
+    public void getEvent(Integer id) throws EntityNullException, NotExistenceException
+    {
+        if(id<=0)
+            throw new ValidationException("Invalid id!");
+        Event event=eventService.findOne(id);
+    }
+
+    public Iterable<Event> getAllEvents(){
+        return eventService.getAll();
+    }
+
+    public void updateEvent(Integer id,String newDate) throws EntityNullException, NotExistenceException{
+        Event foundEvent=eventService.findOne(id);
+        foundEvent.setDate(newDate);
+        eventService.update(foundEvent);
+    }
+
+    public void subscribeEvent(Integer eventId, String userEmail) throws EntityNullException, NotExistenceException, ValidationException{
+        userService.findOne(userEmail);
+        if(eventId<=0)
+            throw new ValidationException("Invalid event id!");
+        eventService.addEventAttendee(eventId,userEmail);
+    }
+
+    public Set<User> getEventAttendees(Integer eventId) throws EntityNullException, NotExistenceException{
+        Set<String> attendeesEmails=eventService.getEventAttendees(eventId);
+        Set<User> attendees=new HashSet<>();
+        for (String email:attendeesEmails) {
+            attendees.add(userService.findOne(email));
+        }
+        return attendees;
+    }
+
+    public Iterable<Event> getSubscribedEvents() {
+        return eventService.getSubscribedEvents(loggedId);
+    }
+
+    public Long getPublicEventsNumber(){
+        return eventService.getEventsNumber();
+    }
+
+    public void unsubscribeEvent(Integer eventId, String userEmail) throws ValidationException,NotExistenceException,EntityNullException{
+        userService.findOne(userEmail);
+        if(eventId<=0)
+            throw new ValidationException("Invalid event id!");
+        eventService.removeEventAttendee(eventId,userEmail);
+    }
+
+    public Set<Event> getTomorrowEvents() {
+        return eventService.getNextDayEvents(loggedId);
     }
 }

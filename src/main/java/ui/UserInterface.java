@@ -241,7 +241,7 @@ public class UserInterface implements UI<String,User,Tuple<String,String>,Friend
         System.out.println("Enter email:");
         String email=in.next();
         User user = controller.getUser(email);
-        List<UserDto> friends = controller.getFriends(user);
+        List<UserDto> friends = controller.getFriends(user.getEmail());
         if (friends.isEmpty())
             System.out.println("This user has no friends!");
         else {

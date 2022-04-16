@@ -1,4 +1,5 @@
 package com.example.socialnetworkguiapplication;
+import domain.Event;
 import domain.Friendship;
 import domain.User;
 import domain.validators.exceptions.ExistenceException;
@@ -12,36 +13,43 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class AddFriendController implements Initializable {
-    private Controller controller;
+public class AddFriendController implements Initializable , Observer{
+    public Label eventNotificationNumberLabel;
+    public ImageView eventNotificationIcon;
+    private Controller controller=SocialNetworkApplication.getController();
     private Stage primaryStage;
     private ObservableList<User> model = FXCollections.observableArrayList();
 
     double xOffset = 0;
     double yOffset = 0;
+    @FXML
+    private Label loggedEmail;
 
     public void setController(Controller controller) {
         this.controller = controller;
+        loggedEmail.setText(controller.getUser(controller.getLoggedEmail()).getFirstName().concat(" ").concat(controller.getUser(controller.getLoggedEmail()).getLastName()));
+        this.controller.addObserver(this);
         initModel();
+
     }
 
     public void setStage(Stage stage) {
         this.primaryStage = stage;
-        initModel();
-        usersTable.setItems(model);
+        /*initModel();
+        usersTable.setItems(model);*/
     }
 
     @FXML
@@ -66,6 +74,13 @@ public class AddFriendController implements Initializable {
         userLastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         usersTable.setItems(model);
         searchBar.textProperty().addListener(o->handleSearch());
+        Set<Event> tomorrowEvents=controller.getTomorrowEvents();
+        int tomorrowEventsNumber=tomorrowEvents.size();
+        if(tomorrowEventsNumber!=0) {
+            eventNotificationNumberLabel.setText(String.valueOf(tomorrowEventsNumber));
+            eventNotificationNumberLabel.setVisible(true);
+            eventNotificationIcon.setVisible(true);
+        }
     }
 
     private void initModel(){
@@ -80,6 +95,7 @@ public class AddFriendController implements Initializable {
         FXMLLoader friendRequestsWindowLoader = new FXMLLoader(SocialNetworkApplication.class.getResource("friend-requests-view2.fxml"));
         Stage friendRequestsStage=new Stage();
         Scene friendRequestsScene = new Scene(friendRequestsWindowLoader.load());
+        friendRequestsScene.setFill(Color.TRANSPARENT);
         friendRequestsStage.setTitle("FriendRequests");
         friendRequestsStage.setScene(friendRequestsScene);
         friendRequestsStage.initModality(Modality.APPLICATION_MODAL);
@@ -103,26 +119,12 @@ public class AddFriendController implements Initializable {
         }
     }
 
-    @FXML
-    public void onUnsendRequestButtonClick(ActionEvent actionEvent) {
-        User selectedUser=usersTable.getSelectionModel().getSelectedItem();
-        if(selectedUser!=null){
-            try {
-                controller.unsendRequest(selectedUser.getEmail());
-                MessageAlert.showMessage(null, Alert.AlertType.INFORMATION, "Friend Request", "Successfully deleted!");
-            }
-            catch (ExistenceException ex){
-                MessageAlert.showErrorMessage(null,ex.getMessage());
-            }
-        }else
-            MessageAlert.showErrorMessage(null,"Please select an user!");
-    }
 
     @FXML
     void onBackButtonClick(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(SocialNetworkApplication.class.getResource("main-profile-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-
+        scene.setFill(Color.TRANSPARENT);
         primaryStage.setTitle("FriendZone");
         primaryStage.setScene(scene);
 
@@ -148,6 +150,7 @@ public class AddFriendController implements Initializable {
     void onlogOutButtonClicked(ActionEvent event) throws IOException {
         FXMLLoader logOutWindowLoader = new FXMLLoader(SocialNetworkApplication.class.getResource("log-in-view.fxml"));
         Scene logInScene = new Scene(logOutWindowLoader.load(), 612,341);
+        logInScene.setFill(Color.TRANSPARENT);
         logInScene.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -172,10 +175,86 @@ public class AddFriendController implements Initializable {
     public void onChatButtonClicked(ActionEvent actionEvent) throws IOException {
         FXMLLoader chatWindowLoader = new FXMLLoader(SocialNetworkApplication.class.getResource("chat-view.fxml"));
         Scene chatScene = new Scene(chatWindowLoader.load());
+        chatScene.setFill(Color.TRANSPARENT);
         primaryStage.setTitle("Add Friend");
         primaryStage.setScene(chatScene);
         ChatController chatController = chatWindowLoader.getController();
         chatController.setController(controller);
         chatController.setStage(primaryStage);
     }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        initModel();
+    }
+
+    @FXML
+    private void onStatisticsButtonCliked() throws IOException {
+        FXMLLoader statisticsWindowLoader = new FXMLLoader(SocialNetworkApplication.class.getResource("statistics.fxml"));
+        Scene statistics = new Scene(statisticsWindowLoader.load());
+        statistics.setFill(Color.TRANSPARENT);
+        statistics.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            }
+        });
+        statistics.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                primaryStage.setX(event.getScreenX() - xOffset);
+                primaryStage.setY(event.getScreenY() - yOffset);
+            }
+        });
+        primaryStage.setTitle("Statistics");
+        primaryStage.setScene(statistics);
+        ReportsController reportsController = statisticsWindowLoader.getController();
+        reportsController.setController(controller);
+        reportsController.setStage(primaryStage);
+    }
+
+    public void onEventsButtonClicked(ActionEvent actionEvent) throws IOException {
+        FXMLLoader eventsWindowLoader = new FXMLLoader(SocialNetworkApplication.class.getResource("events-view.fxml"));
+        Scene eventsScene = new Scene(eventsWindowLoader.load());
+        eventsScene.setFill(Color.TRANSPARENT);
+        eventsScene.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+        eventsScene.setOnMouseDragged(event -> {
+            primaryStage.setX(event.getScreenX() - xOffset);
+            primaryStage.setY(event.getScreenY() - yOffset);
+        });
+        primaryStage.setTitle("Events");
+        primaryStage.setScene(eventsScene);
+        EventsController eventsController = eventsWindowLoader.getController();
+        eventsController.setController(controller);
+        eventsController.setStage(primaryStage);
+    }
+
+    /*@FXML
+    public void onEventsButtonCliked() throws  IOException{
+        FXMLLoader eventsWindowLoader = new FXMLLoader(SocialNetworkApplication.class.getResource("statistics.fxml"));
+        Scene events = new Scene(eventsWindowLoader.load());
+        events.setFill(Color.TRANSPARENT);
+        events.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            }
+        });
+        events.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                primaryStage.setX(event.getScreenX() - xOffset);
+                primaryStage.setY(event.getScreenY() - yOffset);
+            }
+        });
+        primaryStage.setScene(events);
+        EventsController eventsController = eventsWindowLoader.getController();
+        eventsController.setController(controller);
+        eventsController.setStage(primaryStage);
+    }*/
 }

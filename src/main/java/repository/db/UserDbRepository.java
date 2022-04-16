@@ -1,10 +1,15 @@
 package repository.db;
+import com.example.socialnetworkguiapplication.FriendRequestModel;
+import com.example.socialnetworkguiapplication.UserModel;
+import domain.Message;
 import domain.User;
 import domain.validators.Validator;
 import domain.validators.exceptions.EntityNullException;
 import domain.validators.exceptions.ExistenceException;
 import domain.validators.exceptions.NotExistenceException;
 import repository.Repository;
+import repository.paging.Page;
+import repository.paging.Pageable;
 
 import java.sql.*;
 import java.util.*;
@@ -67,8 +72,8 @@ public class UserDbRepository implements Repository<String, User> {
                 ps.setString(1, (entity).getFirstName());
                 ps.setString(2, (entity).getLastName());
                 ps.setString(3, (entity).getEmail());
-                ps.setString(4, (entity).getPassword());
-
+                Base64.Encoder encoder = Base64.getEncoder();
+                ps.setString(4, encoder.encodeToString(entity.getPassword().getBytes()));
                 ps.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -105,6 +110,22 @@ public class UserDbRepository implements Repository<String, User> {
     }
 
     @Override
+    public List<User> getConversation(String email1, String email2) {
+        return null;
+    }
+
+    @Override
+    public List<User> getFriends(String email) {
+        return null;
+    }
+
+    @Override
+    public List<FriendRequestModel> sentFriendships(String email) {
+        return null;
+    }
+
+
+    @Override
     public Long getEntitiesCount(){
       String sql = "SELECT COUNT(email) FROM users";
       int size = 0;
@@ -117,7 +138,7 @@ public class UserDbRepository implements Repository<String, User> {
         } catch (SQLException e) {
             e.printStackTrace();
          }
-        return Long.valueOf(size);
+        return (long) size;
     }
 
 
@@ -135,13 +156,25 @@ public class UserDbRepository implements Repository<String, User> {
             else{
                 String firstName = resultSet.getString("firstname");
                 String lastName = resultSet.getString("lastname");
-                String password = resultSet.getString("password");
+                String hashedPassword = resultSet.getString("password");
+                byte[] decodedBytes = Base64.getDecoder().decode(hashedPassword);
+                String password = new String(decodedBytes);
                 return new User(firstName, lastName, userEmail,password);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    @Override
+    public Page<UserModel> getFriends(Pageable<UserModel> pageable, String email) {
+        return null;
+    }
+
+    @Override
+    public Page<Message> getConversation(Pageable<Message> pageable, String email1, String email2) {
         return null;
     }
 }
