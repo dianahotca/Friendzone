@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox prefHeight="522.0" prefWidth="798.0" style="-fx-background-radius: 35px; -fx-background-color: TRANSPARENT;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.socialnetworkguiapplication.ReportsController">
+   <children>
+      <BorderPane fx:id="borderPaneChat" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="522.0" prefWidth="798.0" style="-fx-background-radius: 40px; -fx-border-radius: 35px; -fx-background-color: linear-gradient(to bottom  , #cc95c0, #dbd4b4, #7aa1d2);">
+         <left>
+            <HBox prefHeight="600.0" prefWidth="893.0" style="-fx-background-color: transparent; -fx-background-radius: 35px;" BorderPane.alignment="CENTER">
+               <children>
+                  <AnchorPane prefHeight="519.0" prefWidth="270.0">
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="37.0" layoutX="13.0" layoutY="278.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../icons/chat_48px.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="88.0" fitWidth="135.0" layoutX="76.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../icons/user_644px.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="38.0" fitWidth="35.0" layoutX="15.0" layoutY="159.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../icons/add-friend-3925942-3261709.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="41.0" fitWidth="37.0" layoutX="13.0" layoutY="217.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../icons/friend-request-2832424-2351935.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="41.0" fitWidth="39.0" layoutX="12.0" layoutY="454.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../icons/Logout_64px.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="loggedEmail" layoutX="34.0" layoutY="110.0" prefHeight="34.0" prefWidth="201.0">
+                           <font>
+                              <Font name="Corbel" size="28.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="friendRequestsButton" layoutX="62.0" layoutY="224.0" mnemonicParsing="false" onAction="#onFriendRequestsButtonClick" prefHeight="36.0" prefWidth="170.0" style="-fx-background-color: linear-gradient(to right, #8e9eab, #eef2f3);" text="View friend requests">
+                           <font>
+                              <Font name="Corbel" size="17.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Button>
+                        <Button fx:id="addFriendsButton" layoutX="62.0" layoutY="163.0" mnemonicParsing="false" onAction="#onAddFriendButtonClicked" prefHeight="36.0" prefWidth="170.0" style="-fx-background-color: linear-gradient(to right, #8e9eab, #eef2f3) linear-gradient(to right, #8e9eab, #eef2f3);" text="Add friends">
+                           <font>
+                              <Font name="Corbel" size="17.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Button>
+                        <Button fx:id="chatButton" layoutX="62.0" layoutY="282.0" mnemonicParsing="false" onAction="#onChatButtonClicked" prefHeight="36.0" prefWidth="170.0" style="-fx-background-color: linear-gradient(to right, #8e9eab, #eef2f3);" text="Chat">
+                           <font>
+                              <Font name="Corbel" size="17.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Button>
+                        <Button fx:id="logOutButton" layoutX="62.0" layoutY="459.0" mnemonicParsing="false" onAction="#onlogOutButtonClicked" prefHeight="36.0" prefWidth="170.0" style="-fx-background-color: linear-gradient(to right, #8e9eab, #eef2f3);" text="Log out">
+                           <font>
+                              <Font name="Corbel" size="17.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Button>
+                        <ImageView fitHeight="39.0" fitWidth="37.0" layoutX="13.0" layoutY="338.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../icons/event_accepted_tentatively_96px.png" />
+                           </image>
+                        </ImageView>
+                        <Button fx:id="chatButton1" layoutX="62.0" layoutY="341.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="170.0" style="-fx-background-color: linear-gradient(to right, #8e9eab, #eef2f3);" text="Events">
+                           <font>
+                              <Font name="Corbel" size="17.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Button>
+                        <ImageView fitHeight="38.0" fitWidth="36.0" layoutX="15.0" layoutY="395.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../icons/statistics_96px.png" />
+                           </image>
+                        </ImageView>
+                        <Button layoutX="62.0" layoutY="398.0" mnemonicParsing="false" onAction="#onStatisticsButtonCliked" prefHeight="36.0" prefWidth="170.0" style="-fx-background-color: linear-gradient(to right, #8e9eab, #eef2f3);" text="Statistics">
+                           <font>
+                              <Font name="Corbel" size="17.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+                  <VBox prefHeight="546.0" prefWidth="682.0">
+                     <children>
+                        <VBox fx:id="chatVBox" prefHeight="98.0" prefWidth="651.0">
+                           <children>
+                              <HBox fx:id="chatBox" prefHeight="63.0" prefWidth="282.0" />
+                              <Button mnemonicParsing="false" onAction="#onBackButtonClick" text="Go back to your profile">
+                                 <font>
+                                    <Font name="Corbel" size="15.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Label prefHeight="48.0" prefWidth="648.0" text="                               Statistics">
+                                 <font>
+                                    <Font name="Javanese Text" size="21.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="455.0" prefWidth="637.0">
+                           <children>
+                              <Pane prefHeight="34.0" prefWidth="651.0">
+                                 <children>
+                                    <Label fx:id="friendsName" layoutX="27.0" layoutY="7.0" prefHeight="26.0" prefWidth="279.0">
+                                       <font>
+                                          <Font name="Corbel" size="21.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fitHeight="24.0" fitWidth="17.0" layoutX="448.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/call_50px.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="24.0" fitWidth="17.0" layoutX="482.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/video_call_26px.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="31.0" fitWidth="23.0" layoutX="519.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/menu_vertical_32px.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </Pane>
+                              <Label prefHeight="48.0" prefWidth="626.0" text="          Here you can find your statistics. Select two dates in order to generate a report.">
+                                 <font>
+                                    <Font name="Javanese Text" size="15.0" />
+                                 </font>
+                              </Label>
+                              <HBox prefHeight="55.0" prefWidth="651.0">
+                                 <children>
+                                    <Label prefHeight="62.0" prefWidth="103.0" text=" Start date :">
+                                       <font>
+                                          <Font name="System Italic" size="15.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets bottom="20.0" left="25.0" top="20.0" />
+                                       </padding>
+                                    </Label>
+                                    <DatePicker fx:id="startDate" prefHeight="26.0" prefWidth="142.0">
+                                       <HBox.margin>
+                                          <Insets left="15.0" top="16.0" />
+                                       </HBox.margin>
+                                    </DatePicker>
+                                    <Label prefHeight="62.0" prefWidth="106.0" text="  End date :">
+                                       <font>
+                                          <Font name="System Italic" size="15.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets bottom="20.0" left="25.0" top="20.0" />
+                                       </padding>
+                                    </Label>
+                                    <DatePicker fx:id="endDate" prefHeight="26.0" prefWidth="149.0">
+                                       <HBox.margin>
+                                          <Insets left="15.0" top="16.0" />
+                                       </HBox.margin>
+                                    </DatePicker>
+                                 </children>
+                              </HBox>
+                              <VBox prefHeight="174.0" prefWidth="621.0">
+                                 <children>
+                                    <Label prefHeight="46.0" prefWidth="499.0" text="Generate report about your new friends and messages in the period selected.">
+                                       <VBox.margin>
+                                          <Insets left="10.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="Javanese Text" size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <Button mnemonicParsing="false" onAction="#onGeneralRaportButtonClicked" prefHeight="26.0" prefWidth="109.0" text="General report">
+                                       <VBox.margin>
+                                          <Insets left="50.0" />
+                                       </VBox.margin>
+                                       <effect>
+                                          <DropShadow />
+                                       </effect>
+                                    </Button>
+                                    <Label prefHeight="37.0" prefWidth="358.0" text="Generate report about a friend in the period selected.">
+                                       <font>
+                                          <Font name="Javanese Text" size="15.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding>
+                                    </Label>
+                                    <Button mnemonicParsing="false" onAction="#onFriendRaportButtonClicked" prefHeight="26.0" prefWidth="109.0" text="Friend report">
+                                       <effect>
+                                          <DropShadow />
+                                       </effect>
+                                       <VBox.margin>
+                                          <Insets left="50.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                              <HBox prefHeight="2.0" prefWidth="651.0">
+                                 <children>
+                                    <TextField fx:id="friendEmail" prefHeight="34.0" prefWidth="153.0" promptText="Enter your friend's email">
+                                       <font>
+                                          <Font size="11.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets left="359.0" top="-92.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="136.0" prefWidth="621.0">
+                                 <children>
+                                    <ImageView fitHeight="46.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/account_160px.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets left="40.0" top="30.0" />
+                                       </HBox.margin>
+                                    </ImageView>
+                                    <ImageView fitHeight="46.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/combo_chart_160px.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets left="75.0" top="30.0" />
+                                       </HBox.margin>
+                                    </ImageView>
+                                    <ImageView fitHeight="46.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/histogram_60px.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets left="90.0" top="30.0" />
+                                       </HBox.margin>
+                                    </ImageView>
+                                    <ImageView fitHeight="46.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/decline_160px.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets left="100.0" top="30.0" />
+                                       </HBox.margin>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </left>
+         <right>
+            <AnchorPane prefHeight="519.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
+         </right>
+         <effect>
+            <DropShadow />
+         </effect>
+      </BorderPane>
+   </children>
+</HBox>

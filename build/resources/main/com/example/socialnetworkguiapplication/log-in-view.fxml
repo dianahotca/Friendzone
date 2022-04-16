@@ -36,6 +36,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -61,26 +62,26 @@
                         <Font name="Corbel" size="16.0" />
                     </font>
                 </TextField>
-                <Label layoutX="41.0" layoutY="227.0" prefHeight="27.0" prefWidth="256.0" text="Don't have an account? Click Register">
-                    <font>
-                        <Font name="Corbel" size="16.0" />
-                    </font>
-                </Label>
-                <Button fx:id="logInButton" layoutX="41.0" layoutY="187.0" mnemonicParsing="false" onAction="#onLogInButtonClick" prefHeight="30.0" prefWidth="256.0" text="LogIn">
-                    <font>
-                        <Font name="Corbel Bold" size="16.0" />
-                    </font>
-                </Button>
-                <Button fx:id="registerButton" layoutX="40.0" layoutY="262.0" mnemonicParsing="false" onAction="#onRegisterButtonClick" prefHeight="30.0" prefWidth="256.0" text="Register">
-                    <font>
-                        <Font name="Corbel Bold" size="16.0" />
-                    </font>
-                </Button>
                 <PasswordField fx:id="passwordTextField" layoutX="41.0" layoutY="142.0" prefHeight="31.0" prefWidth="256.0" promptText="Password">
                     <font>
                         <Font name="Corbel" size="16.0" />
                     </font>
                 </PasswordField>
+                <Button fx:id="logInButton" layoutX="41.0" layoutY="187.0" mnemonicParsing="false" onAction="#onLogInButtonClick" prefHeight="30.0" prefWidth="256.0" text="LogIn">
+                    <font>
+                        <Font name="Corbel Bold" size="16.0" />
+                    </font>
+                </Button>
+                <Label layoutX="41.0" layoutY="227.0" prefHeight="27.0" prefWidth="256.0" text="Don't have an account? Click Register">
+                    <font>
+                        <Font name="Corbel" size="16.0" />
+                    </font>
+                </Label>
+                <Button fx:id="registerButton" layoutX="40.0" layoutY="262.0" mnemonicParsing="false" onAction="#onRegisterButtonClick" prefHeight="30.0" prefWidth="256.0" text="Register">
+                    <font>
+                        <Font name="Corbel Bold" size="16.0" />
+                    </font>
+                </Button>
                 <ImageView fitHeight="230.0" fitWidth="146.0" layoutX="390.0" layoutY="114.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../../../icons/friends-walking-flat-concept-icon-shopping-together-sticker-best-friends-spending-time-weekend-activities-guy-girls-talking-175501523-modified.png" />
@@ -97,6 +98,12 @@
                     </font>
                 </Label>
             </children>
+         <effect>
+            <DropShadow />
+         </effect>
         </AnchorPane>
     </children>
+   <effect>
+      <DropShadow />
+   </effect>
 </VBox>

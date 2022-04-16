@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox prefHeight="522.0" prefWidth="798.0" style="-fx-background-radius: 40px; -fx-border-radius: 40px;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.socialnetworkguiapplication.EventsController">
+    <children>
+        <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="522.0" prefWidth="798.0" style="-fx-background-color: linear-gradient(to bottom  , #cc95c0, #dbd4b4, #7aa1d2); -fx-background-radius: 40px; -fx-border-radius: 40px;">
+            <effect>
+                <DropShadow />
+            </effect>
+            <top>
+                <HBox prefHeight="521.0" prefWidth="822.0" style="-fx-background-color: transparent; -fx-background-radius: 40px; -fx-border-radius: 40px;" BorderPane.alignment="CENTER">
+                    <children>
+                        <AnchorPane prefHeight="519.0" prefWidth="270.0" style="-fx-background-radius: 40px; -fx-border-radius: 40px;">
+                            <children>
+                                <ImageView fitHeight="40.0" fitWidth="37.0" layoutX="13.0" layoutY="278.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../../icons/chat_48px.png" />
+                                    </image>
+                                </ImageView>
+                                <ImageView fitHeight="88.0" fitWidth="135.0" layoutX="76.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../../icons/user_644px.png" />
+                                    </image>
+                                </ImageView>
+                                <ImageView fitHeight="37.0" fitWidth="35.0" layoutX="15.0" layoutY="159.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../../icons/add-friend-3925942-3261709.png" />
+                                    </image>
+                                </ImageView>
+                                <ImageView fitHeight="37.0" fitWidth="37.0" layoutX="13.0" layoutY="217.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../../icons/friend-request-2832424-2351935.png" />
+                                    </image>
+                                </ImageView>
+                                <ImageView fitHeight="41.0" fitWidth="40.0" layoutX="12.0" layoutY="454.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../../icons/Logout_64px.png" />
+                                    </image>
+                                </ImageView>
+                                <Label fx:id="loggedEmail" layoutX="11.0" layoutY="110.0" prefHeight="34.0" prefWidth="229.0">
+                                    <font>
+                                        <Font name="Corbel" size="28.0" />
+                                    </font>
+                                </Label>
+                                <Button fx:id="friendRequestsButton" layoutX="62.0" layoutY="224.0" mnemonicParsing="false" onAction="#onFriendRequestsButtonClick" prefHeight="36.0" prefWidth="170.0" style="-fx-background-color: linear-gradient(to right, #8e9eab, #eef2f3) linear-gradient(to right, #8e9eab, #eef2f3);" text="View friend requests">
+                                    <font>
+                                        <Font name="Corbel" size="17.0" />
+                                    </font>
+                                    <effect>
+                                        <DropShadow />
+                                    </effect>
+                                </Button>
+                                <Button fx:id="addFriendsButton" layoutX="62.0" layoutY="163.0" mnemonicParsing="false" onAction="#onAddFriendButtonClicked" prefHeight="36.0" prefWidth="170.0" style="-fx-background-color: linear-gradient(to right, #8e9eab, #eef2f3) linear-gradient(to right, #8e9eab, #eef2f3);" text="Add friends">
+                                    <font>
+                                        <Font name="Corbel" size="17.0" />
+                                    </font>
+                                    <effect>
+                                        <DropShadow />
+                                    </effect>
+                                </Button>
+                                <Button fx:id="chatButton" layoutX="62.0" layoutY="282.0" mnemonicParsing="false" onAction="#onChatButtonClicked" prefHeight="36.0" prefWidth="170.0" style="-fx-background-color: linear-gradient(to right, #8e9eab, #eef2f3) linear-gradient(to right, #8e9eab, #eef2f3);" text="Chat">
+                                    <font>
+                                        <Font name="Corbel" size="17.0" />
+                                    </font>
+                                    <effect>
+                                        <DropShadow />
+                                    </effect>
+                                </Button>
+                                <Button fx:id="logOutButton" layoutX="62.0" layoutY="459.0" mnemonicParsing="false" onAction="#onlogOutButtonClicked" prefHeight="36.0" prefWidth="170.0" style="-fx-background-color: linear-gradient(to right, #8e9eab, #eef2f3) linear-gradient(to right, #8e9eab, #eef2f3);" text="Log out">
+                                    <font>
+                                        <Font name="Corbel" size="17.0" />
+                                    </font>
+                                    <effect>
+                                        <DropShadow />
+                                    </effect>
+                                </Button>
+                                <ImageView fitHeight="40.0" fitWidth="36.0" layoutX="13.0" layoutY="338.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../../icons/event_accepted_tentatively_96px.png" />
+                                    </image>
+                                </ImageView>
+                                <Button layoutX="62.0" layoutY="341.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="170.0" style="-fx-background-color: linear-gradient(to right, #8e9eab, #eef2f3) linear-gradient(to right, #8e9eab, #eef2f3);" text="Events">
+                                    <font>
+                                        <Font name="Corbel" size="17.0" />
+                                    </font>
+                                    <effect>
+                                        <DropShadow />
+                                    </effect>
+                                </Button>
+                                <ImageView fitHeight="39.0" fitWidth="36.0" layoutX="15.0" layoutY="395.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../../icons/statistics_96px.png" />
+                                    </image>
+                                </ImageView>
+                                <Button fx:id="statisticsButton" layoutX="62.0" layoutY="398.0" mnemonicParsing="false" onAction="#onStatisticsButtonClicked" prefHeight="36.0" prefWidth="170.0" style="-fx-background-color: linear-gradient(to right, #8e9eab, #eef2f3) linear-gradient(to right, #8e9eab, #eef2f3);" text="Statistics">
+                                    <font>
+                                        <Font name="Corbel" size="17.0" />
+                                    </font>
+                                    <effect>
+                                        <DropShadow />
+                                    </effect>
+                                </Button>
+                        <ImageView fx:id="eventNotificationIcon" fitHeight="28.0" fitWidth="28.0" layoutX="181.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../icons/megaphone_80px.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="eventNotificationNumberLabel" alignment="CENTER" layoutX="209.0" layoutY="347.0" prefHeight="18.0" prefWidth="23.0" textAlignment="CENTER">
+                           <font>
+                              <Font name="Corbel Bold" size="19.0" />
+                           </font>
+                        </Label>
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane>
+                            <children>
+                                <Label fx:id="createEventLabel" layoutY="25.0" prefHeight="31.0" prefWidth="546.0" text="  Want to create a public event for the Friendzone community?">
+                                    <font>
+                                        <Font name="Corbel" size="21.0" />
+                                    </font>
+                           <padding>
+                              <Insets top="20.0" />
+                           </padding>
+                                </Label>
+                                <Button fx:id="createEventButton" layoutX="355.0" layoutY="96.0" mnemonicParsing="false" onAction="#onCreateEventButtonClicked" prefHeight="43.0" prefWidth="162.0" text="Create event">
+                           <font>
+                              <Font name="Corbel" size="18.0" />
+                           </font></Button>
+                                <DatePicker fx:id="eventDatePicker" layoutX="53.0" layoutY="125.0" prefHeight="38.0" prefWidth="272.0" promptText="Choose a date..." />
+                                <TableView fx:id="publicEventsTable" layoutX="28.0" layoutY="250.0" prefHeight="200.0" prefWidth="490.0" style="-fx-background-color: gray;" stylesheets="@../../../css/table.css">
+                                    <columns>
+                                        <TableColumn fx:id="publicEventDescriptionColumn" prefWidth="244.79999923706055" text="Event Name" />
+                                        <TableColumn fx:id="publicEventDateColumn" prefWidth="245.60003662109375" text="Date" />
+                                    </columns>
+                                    <styleClass>
+                                        <String fx:value="column-header" />
+                                        <String fx:value="column-header-background" />
+                                        <String fx:value="corner" />
+                                        <String fx:value="decrement-button" />
+                                        <String fx:value="filler" />
+                                        <String fx:value="increment-button" />
+                                        <String fx:value="scroll-bar" />
+                                        <String fx:value="table-cell" />
+                                        <String fx:value="table-row-cell" />
+                                        <String fx:value="thumb" />
+                                        <String fx:value="track" />
+                                        <String fx:value="track-background" />
+                                        <String fx:value="virtual-flow" />
+                                    </styleClass>
+                                </TableView>
+                                <Label fx:id="publicEventsLabel" layoutX="226.0" layoutY="220.0" prefHeight="35.0" prefWidth="94.0" text="Public events">
+                                    <font>
+                                        <Font name="Corbel Light" size="17.0" />
+                                    </font>
+                                </Label>
+                                <Button fx:id="subscribeButton" layoutX="207.0" layoutY="460.0" mnemonicParsing="false" onAction="#onSubscribeButtonClicked" prefHeight="26.0" prefWidth="131.0" text="Subscribe">
+                           <font>
+                              <Font name="Corbel" size="23.0" />
+                           </font></Button>
+                                <Button fx:id="unsubscribeButton" layoutX="198.0" layoutY="460.0" mnemonicParsing="false" onAction="#onUnsubscribeButtonClicked" prefHeight="48.0" prefWidth="150.0" text="Unsubscribe">
+                           <font>
+                              <Font name="Corbel" size="23.0" />
+                           </font></Button>
+                                <TableView fx:id="comingEventsTable" layoutX="28.0" layoutY="250.0" prefHeight="200.0" prefWidth="490.0" style="-fx-background-color: gray;" stylesheets="@../../../css/table.css">
+                                    <columns>
+                                        <TableColumn fx:id="comingEventDescriptionColumn" prefWidth="244.79999923706055" text="Event Name" />
+                                        <TableColumn fx:id="comingEventDateColumn" prefWidth="245.60003662109375" text="Date" />
+                                    </columns>
+                                    <styleClass>
+                                        <String fx:value="column-header" />
+                                        <String fx:value="column-header-background" />
+                                        <String fx:value="corner" />
+                                        <String fx:value="decrement-button" />
+                                        <String fx:value="filler" />
+                                        <String fx:value="increment-button" />
+                                        <String fx:value="scroll-bar" />
+                                        <String fx:value="table-cell" />
+                                        <String fx:value="table-row-cell" />
+                                        <String fx:value="thumb" />
+                                        <String fx:value="track" />
+                                        <String fx:value="track-background" />
+                                        <String fx:value="virtual-flow" />
+                                    </styleClass>
+                                </TableView>
+                                <Label fx:id="upcomingEventsLabel" layoutX="209.0" layoutY="220.0" prefHeight="35.0" prefWidth="126.0" text="Upcoming events">
+                                    <font>
+                                        <Font name="Corbel Light" size="17.0" />
+                                    </font>
+                                </Label>
+                        <TextField fx:id="eventDescription" layoutX="53.0" layoutY="80.0" prefHeight="38.0" prefWidth="272.0" promptText="Enter event description..." />
+                        <RadioButton fx:id="publicEventsRadioButton" layoutX="65.0" layoutY="200.0" mnemonicParsing="false" onAction="#onPublicEventsRadioButtonSelected" text="public events">
+                           <font>
+                              <Font name="Corbel" size="17.0" />
+                           </font>
+                        </RadioButton>
+                        <RadioButton fx:id="subscribedEventsRadioButton" layoutX="358.0" layoutY="200.0" mnemonicParsing="false" onAction="#onSubscribedEventsRadioButtonSelected" text="subscribed events">
+                           <font>
+                              <Font name="Corbel" size="17.0" />
+                           </font>
+                        </RadioButton>
+                        <Label fx:id="chooseEventsLabel" layoutX="144.0" layoutY="165.0" prefHeight="35.0" prefWidth="258.0" text="Choose which events you want to see.">
+                           <font>
+                              <Font name="Corbel Light" size="17.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="14.0" layoutY="9.0" mnemonicParsing="false" onAction="#onBackProfileClick" prefHeight="26.0" prefWidth="162.0" text="Go back to profile" />
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </HBox>
+            </top>
+        </BorderPane>
+    </children>
+</HBox>

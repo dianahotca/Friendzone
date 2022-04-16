@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="519.0" prefWidth="779.0" style="-fx-background-color: linear-gradient(to bottom  , #cc95c0, #dbd4b4, #7aa1d2); -fx-background-radius: 40px;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.socialnetworkguiapplication.FriendRequestController">
+   <left>
+      <HBox prefHeight="519.0" prefWidth="799.0" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane prefHeight="519.0" prefWidth="798.0">
+               <children>
+<<<<<<< HEAD
+                  <Label fx:id="sentRequestsLabel" layoutX="208.0" layoutY="54.0" prefHeight="34.0" prefWidth="413.0" text="Here are the users you added to your Friendzone">
+=======
+                  <Label layoutX="220.0" layoutY="48.0" prefHeight="34.0" prefWidth="413.0" text="             and can be in your Friendzone">
+>>>>>>> 7d7e0646c95a0747dc65f01396cfa52171a34c8f
+                     <font>
+                        <Font name="Corbel" size="20.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="friendRequestsTable" layoutX="208.0" layoutY="107.0" prefHeight="245.0" prefWidth="390.0" style="-fx-background-color: gray;" stylesheets="@../../../css/table.css">
+                     <columns>
+                        <TableColumn fx:id="fromUserColumn" prefWidth="127.99996948242188" text="From user" />
+                        <TableColumn fx:id="statusColumn" prefWidth="155.199951171875" text="Status" />
+                        <TableColumn fx:id="dateColumn" prefWidth="104.00006103515625" text="Sent on" />
+                     </columns>
+                     <styleClass>
+                        <String fx:value="column-header" />
+                        <String fx:value="column-header-background" />
+                        <String fx:value="corner" />
+                        <String fx:value="decrement-button" />
+                        <String fx:value="filler" />
+                        <String fx:value="highlighted" />
+                        <String fx:value="increment-button" />
+                        <String fx:value="scroll-bar" />
+                        <String fx:value="selected" />
+                        <String fx:value="table-cell" />
+                        <String fx:value="table-row-cell" />
+                        <String fx:value="table-view" />
+                        <String fx:value="thumb" />
+                        <String fx:value="track" />
+                        <String fx:value="track-background" />
+                        <String fx:value="virtual-flow" />
+                     </styleClass>
+                  </TableView>
+<<<<<<< HEAD
+                  <Label fx:id="selectReceivedRequestLabel" layoutX="250.0" layoutY="422.0" prefHeight="22.0" prefWidth="330.0" text="Select a  request, then click Accept or Decline.">
+=======
+                  <Label layoutX="52.0" layoutY="411.0" prefHeight="22.0" prefWidth="334.0" text="Select a  request, then click Accept or Decline.">
+>>>>>>> 7d7e0646c95a0747dc65f01396cfa52171a34c8f
+                     <font>
+                        <Font name="Corbel Light" size="18.0" />
+                     </font>
+                  </Label>
+<<<<<<< HEAD
+                  <Label fx:id="chooseRequestsLabel" layoutX="265.0" layoutY="359.0" text="Choose which requests you want to see.">
+=======
+                  <Label layoutX="40.0" layoutY="441.0" text="It's up to you if you want them in your Friendzone too:)">
+>>>>>>> 7d7e0646c95a0747dc65f01396cfa52171a34c8f
+                     <font>
+                        <Font name="Corbel Light" size="18.0" />
+                     </font>
+                  </Label>
+<<<<<<< HEAD
+                  <Button fx:id="acceptRequestButton" layoutX="248.0" layoutY="456.0" mnemonicParsing="false" onAction="#onAcceptButtonClicked" prefHeight="36.0" prefWidth="97.0" text="Accept">
+=======
+                  <Button fx:id="acceptRequestButton" layoutX="84.0" layoutY="471.0" mnemonicParsing="false" onAction="#onAcceptButtonClicked" prefHeight="36.0" prefWidth="97.0" style="-fx-background-radius: 40px;" text="Accept">
+>>>>>>> 7d7e0646c95a0747dc65f01396cfa52171a34c8f
+                     <font>
+                        <Font name="Corbel" size="19.0" />
+                     </font>
+                  </Button>
+<<<<<<< HEAD
+                  <Button fx:id="declineRequestButton" layoutX="487.0" layoutY="456.0" mnemonicParsing="false" onAction="#onDeclineButtonClicked" prefHeight="33.0" prefWidth="94.0" text="Decline">
+=======
+                  <Button fx:id="declineRequestButton" layoutX="258.0" layoutY="471.0" mnemonicParsing="false" onAction="#onDeclineButtonClicked" prefHeight="33.0" prefWidth="94.0" style="-fx-background-radius: 40px;" text="Decline">
+>>>>>>> 7d7e0646c95a0747dc65f01396cfa52171a34c8f
+                     <font>
+                        <Font name="Corbel" size="19.0" />
+                     </font>
+                  </Button>
+<<<<<<< HEAD
+                  <Label fx:id="receivedRequestsLabel" layoutX="216.0" layoutY="54.0" prefHeight="34.0" prefWidth="440.0" text="Here are the users who want you in their Friendzone">
+=======
+                  <Label layoutX="193.0" layoutY="14.0" prefHeight="34.0" prefWidth="440.0" text="Here are the users who want you in their Friendzone">
+>>>>>>> 7d7e0646c95a0747dc65f01396cfa52171a34c8f
+                     <font>
+                        <Font name="Corbel" size="20.0" />
+                     </font>
+                  </Label>
+<<<<<<< HEAD
+                  <Button fx:id="unsendRequestButton" layoutX="325.0" layoutY="453.0" mnemonicParsing="false" onAction="#onUnsendRequestButtonClick" prefHeight="42.0" prefWidth="179.0" text="Unsend Request">
+=======
+                  <Button layoutX="560.0" layoutY="449.0" mnemonicParsing="false" onAction="#onUnsendRequestButtonClick" prefHeight="42.0" prefWidth="179.0" style="-fx-background-radius: 40px;" text="Unsend Request">
+>>>>>>> 7d7e0646c95a0747dc65f01396cfa52171a34c8f
+                     <font>
+                        <Font name="Corbel" size="20.0" />
+                     </font>
+                  </Button>
+<<<<<<< HEAD
+                  <Label fx:id="selectSentRequestLabel" layoutX="290.0" layoutY="422.0" prefHeight="22.0" prefWidth="249.0" text="Select a request then click Unsend.">
+=======
+                  <Label layoutX="522.0" layoutY="411.0" prefHeight="22.0" prefWidth="256.0" text="Select a friend then click unsend.">
+>>>>>>> 7d7e0646c95a0747dc65f01396cfa52171a34c8f
+                     <font>
+                        <Font name="Corbel Light" size="18.0" />
+                     </font>
+                  </Label>
+                  <RadioButton fx:id="sentRadioButton" layoutX="271.0" layoutY="391.0" mnemonicParsing="false" onAction="#onSent" text="Sent">
+                     <font>
+                        <Font size="15.0" />
+                     </font></RadioButton>
+                  <RadioButton fx:id="receivedRadioButton" layoutX="479.0" layoutY="391.0" mnemonicParsing="false" onAction="#onReceived" text="Received">
+                     <font>
+                        <Font size="15.0" />
+                     </font></RadioButton>
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+   </left>
+</BorderPane>

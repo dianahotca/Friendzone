@@ -14,5 +14,5 @@ module com.example.socialnetworkguiapplication {
     opens repository;
     opens service;
     opens com.example.socialnetworkguiapplication;
-    requires org.apache.pdfbox;
+    requires pdfbox;
 }
